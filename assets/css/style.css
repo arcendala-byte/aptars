@@ -1,0 +1,479 @@
+/* ==========================================================================
+   APTARS — Main stylesheet
+   Desktop: fixed sidebar column, nav scrolls vertically
+   Mobile:  off-canvas drawer, nav scrolls vertically
+   ========================================================================== */
+
+:root{
+  --aptars-primary:#0f3460;
+  --aptars-primary-soft:#e7eef7;
+  --aptars-accent:#16a085;
+  --aptars-bg:#f4f6fa;
+  --aptars-text:#1f2a37;
+  --aptars-muted:#6b7280;
+  --aptars-border:#e3e6ec;
+  --sidebar-w:250px;
+  --topbar-h:52px;
+}
+
+*{box-sizing:border-box}
+html, body { margin:0; padding:0; max-width:100%; }
+body {
+  background:var(--aptars-bg);
+  color:var(--aptars-text);
+  font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  font-size:14.5px;
+  overflow-x:hidden;
+}
+
+/* ==========================================================================
+   SIDEBAR (desktop)
+   ========================================================================== */
+.sidebar {
+  position:fixed;
+  top:0; left:0; bottom:0;
+  width:var(--sidebar-w);
+  background:var(--aptars-primary);
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;               /* the inner .nav scrolls */
+  z-index:400;
+}
+
+.sidebar .brand {
+  flex-shrink:0;
+  display:flex; align-items:center; gap:.6rem;
+  padding:1.05rem 1.2rem;
+  font-weight:600; font-size:1.05rem;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.sidebar .brand i{font-size:1.4rem;color:#7ad0b3}
+
+/* The scrollable region */
+.sidebar .nav {
+  flex:1 1 auto;
+  min-height:0;                   /* IMPORTANT — allows flex child to shrink and scroll */
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:.6rem .4rem 1rem;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,255,255,.22) transparent;
+}
+.sidebar .nav::-webkit-scrollbar { width:6px; }
+.sidebar .nav::-webkit-scrollbar-track { background:transparent; }
+.sidebar .nav::-webkit-scrollbar-thumb { background:rgba(255,255,255,.22); border-radius:3px; }
+.sidebar .nav::-webkit-scrollbar-thumb:hover { background:rgba(255,255,255,.38); }
+
+.sidebar .nav-link {
+  display:flex; align-items:center; gap:.6rem;
+  padding:.55rem .9rem;
+  color:#dbe5f2;
+  border-radius:8px;
+  font-size:.92rem;
+  text-decoration:none;
+  white-space:normal;
+  word-break:break-word;
+}
+.sidebar .nav-link i { width:1.1rem; text-align:center; flex-shrink:0; }
+.sidebar .nav-link:hover { background:rgba(255,255,255,.07); color:#fff; }
+.sidebar .nav-link.active { background:#fff; color:var(--aptars-primary); font-weight:600; }
+.sidebar .nav-link.disabled { color:#6e81a0; cursor:not-allowed; }
+
+.sidebar .nav-section {
+  color:#9fb3cc;
+  text-transform:uppercase;
+  font-size:.7rem;
+  letter-spacing:.09em;
+  padding:1rem .9rem .35rem;
+}
+
+.sidebar .sidebar-footer {
+  flex-shrink:0;
+  padding:.8rem 1.1rem;
+  font-size:.78rem;
+  color:#9fb3cc;
+  border-top:1px solid rgba(255,255,255,.08);
+  background:var(--aptars-primary);
+}
+
+/* Collapsible sections */
+.sidebar .nav-section-toggle {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:.55rem .9rem;
+  margin-top:.4rem;
+  color:#9fb3cc;
+  text-transform:uppercase;
+  font-size:.7rem;
+  letter-spacing:.09em;
+  text-decoration:none;
+  cursor:pointer;
+  border-radius:6px;
+  user-select:none;
+  transition:background .12s ease, color .12s ease;
+}
+.sidebar .nav-section-toggle:hover { background:rgba(255,255,255,.05); color:#dbe5f2; }
+.sidebar .nav-section-toggle i { font-size:.75rem; transition:transform .2s ease; flex-shrink:0; }
+.sidebar .nav-section-toggle.collapsed i { transform:rotate(-90deg); }
+.sidebar .nav-section-body { padding:.15rem 0 .3rem; }
+
+.sidebar .sidebar-close {
+  display:none;
+  margin-left:auto;
+  background:transparent; border:0;
+  color:#dbe5f2; font-size:1.05rem;
+  cursor:pointer; padding:.2rem .35rem;
+  border-radius:6px;
+}
+.sidebar .sidebar-close:hover { background:rgba(255,255,255,.1); color:#fff; }
+
+/* ==========================================================================
+   CONTENT
+   ========================================================================== */
+.content {
+  margin-left:var(--sidebar-w);
+  padding:1.5rem 5rem 1.5rem 1.8rem;   /* right padding leaves room for the bell */
+  min-height:100vh;
+  max-width:calc(100vw - var(--sidebar-w));
+  overflow-x:hidden;
+}
+.page-head{margin-bottom:1.4rem}
+.page-head h1{font-size:1.5rem;margin:0 0 .15rem;font-weight:600}
+.muted{color:var(--aptars-muted)}
+
+.stat-card {
+  background:#fff; border:1px solid var(--aptars-border); border-radius:12px;
+  padding:1rem 1.1rem; box-shadow:0 1px 2px rgba(15,52,96,.03);
+}
+.stat-label{font-size:.78rem;color:var(--aptars-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.35rem}
+.stat-value{font-size:1.5rem;font-weight:600;color:var(--aptars-primary)}
+
+.panel {
+  background:#fff; border:1px solid var(--aptars-border); border-radius:12px;
+  box-shadow:0 1px 2px rgba(15,52,96,.03);
+  overflow:hidden; min-width:0;
+}
+.panel-head{padding:.85rem 1.1rem;border-bottom:1px solid var(--aptars-border)}
+.panel-head h5{margin:0;font-size:1rem;font-weight:600}
+.panel-body{padding:1rem 1.1rem;min-width:0}
+.empty{color:var(--aptars-muted);text-align:center;margin:0}
+
+.table { width:100%; margin-bottom:0; }
+.table thead th {
+  background:var(--aptars-primary-soft);
+  color:var(--aptars-primary);
+  font-size:.78rem;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  border-bottom:1px solid var(--aptars-border);
+}
+.table>tbody>tr>td{vertical-align:middle; word-break:break-word;}
+
+.panel-body.p-0 { max-width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.panel-body.p-0 > .table { min-width:100%; }
+
+/* Auth pages */
+.auth-wrap {
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(135deg,#0f3460,#164e8a); padding:1rem;
+}
+.auth-card {
+  background:#fff; border-radius:14px; padding:2.2rem;
+  width:100%; max-width:420px;
+  box-shadow:0 12px 40px rgba(0,0,0,.18);
+}
+.auth-card-wide{max-width:760px}
+.auth-card h1{font-size:1.4rem;margin:0 0 .2rem;color:var(--aptars-primary)}
+.auth-card p.sub{color:var(--aptars-muted);margin:0 0 1.4rem;font-size:.9rem}
+.auth-card .btn-primary{background:var(--aptars-primary);border-color:var(--aptars-primary)}
+.form-section {
+  color:var(--aptars-muted); text-transform:uppercase; font-size:.75rem;
+  letter-spacing:.08em; margin:1.2rem 0 .6rem;
+  border-top:1px solid var(--aptars-border); padding-top:.9rem;
+}
+
+/* Notification bell — placed below the page-head line on desktop */
+.notif-bell {
+  position:fixed; top:1.15rem; right:1.7rem; z-index:450;
+  width:40px; height:40px;
+  background:#fff; border:1px solid var(--aptars-border);
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 2px 8px rgba(15,52,96,.08);
+  color:var(--aptars-primary); font-size:1.1rem; text-decoration:none;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.notif-bell:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(15,52,96,.14); color:var(--aptars-primary); }
+.notif-bell .notif-badge {
+  position:absolute; top:-3px; right:-3px;
+  background:#dc3545; color:#fff;
+  border-radius:10px; padding:1px 6px;
+  font-size:.68rem; font-weight:600; line-height:1.4;
+}
+
+/* Notifications list */
+.notif-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.6rem}
+.notif-item{display:flex;gap:.9rem;background:#fff;border:1px solid var(--aptars-border);border-radius:12px;padding:1rem 1.1rem;box-shadow:0 1px 2px rgba(15,52,96,.03)}
+.notif-item.unread{border-left:4px solid var(--aptars-primary);background:#fbfcff}
+.notif-icon{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.05rem;background:var(--aptars-primary-soft);color:var(--aptars-primary)}
+.notif-item.notif-type-success .notif-icon{background:#d1e7dd;color:#0f5132}
+.notif-item.notif-type-warning .notif-icon{background:#fff3cd;color:#664d03}
+.notif-item.notif-type-danger  .notif-icon{background:#f8d7da;color:#842029}
+.notif-body{flex:1;min-width:0}
+.notif-head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap}
+.notif-head strong{font-size:.95rem}
+.notif-body p{margin:.3rem 0 .35rem;font-size:.9rem;color:#374151;word-break:break-word}
+.notif-body .btn-link{font-size:.8rem;color:var(--aptars-primary);text-decoration:none}
+
+/* Mobile topbar + overlay (hidden on desktop) */
+.mobile-topbar { display:none; }
+.mobile-topbar .hamburger {
+  background:transparent; border:0; color:#fff;
+  font-size:1.55rem; line-height:1; padding:.25rem .35rem;
+  cursor:pointer; border-radius:6px; transition:background .15s;
+}
+.mobile-topbar .hamburger:hover { background:rgba(255,255,255,.1); }
+.mobile-topbar .mobile-brand {
+  display:flex; align-items:center; gap:.5rem;
+  font-weight:600; font-size:1rem; color:#fff;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.mobile-topbar .mobile-brand i { color:#7ad0b3; font-size:1.2rem; }
+
+.sidebar-overlay {
+  position:fixed; inset:0;
+  background:rgba(15,25,45,.55);
+  opacity:0; pointer-events:none;
+  transition:opacity .22s ease;
+  z-index:390;
+}
+.sidebar-overlay.show { opacity:1; pointer-events:auto; }
+
+/* ==========================================================================
+   MOBILE / TABLET  (<= 900px)
+   ========================================================================== */
+@media (max-width: 900px) {
+
+  .app-shell { display:block; }
+
+  .mobile-topbar {
+    display:flex; align-items:center; gap:.5rem;
+    position:sticky; top:0; z-index:500;
+    background:#0f3460; color:#fff;
+    padding:.5rem .75rem;
+    padding-right:60px;               /* leave room for the fixed bell */
+    min-height:var(--topbar-h);
+    box-shadow:0 1px 6px rgba(0,0,0,.12);
+  }
+
+  .sidebar {
+    position:fixed;
+    top:0; left:-300px;
+    width:280px;
+    max-width:84vw;
+    height:100vh;
+    height:100dvh;
+    z-index:600;
+    transition:left .25s ease;
+    box-shadow:6px 0 24px rgba(0,0,0,.18);
+  }
+  .sidebar.open { left:0; }
+  .sidebar .brand { padding:.9rem 1rem; font-size:1rem; }
+  .sidebar .sidebar-close { display:inline-flex; }
+
+  .sidebar .nav {
+    display:block;
+    flex-wrap:nowrap;
+    flex:1 1 auto;
+    min-height:0;
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding:.5rem .5rem 1rem;
+  }
+  .sidebar .nav-link {
+    white-space:normal;
+    word-break:break-word;
+    font-size:.92rem;
+  }
+  .sidebar .nav-section,
+  .sidebar .nav-section-toggle { display:flex; }
+  .sidebar .nav-section { padding-top:.9rem; }
+
+  .content {
+    margin-left:0;
+    padding:1rem;
+    padding-top:1rem;
+    max-width:100vw;
+    overflow-x:hidden;
+  }
+
+  body.drawer-open { overflow:hidden; }
+
+  .notif-bell { top:6px; right:.75rem; width:40px; height:40px; font-size:1.05rem; }
+
+  .table thead th { white-space:normal; }
+  .table>tbody>tr>td { word-break:break-word; }
+
+  .stat-value { font-size:1.35rem; }
+  .page-head h1 { font-size:1.3rem; }
+  .panel-body { padding:.85rem .85rem; }
+}
+
+@media (max-width: 400px) {
+  .mobile-topbar { padding-left:.5rem; }
+  .mobile-topbar .mobile-brand span { font-size:.9rem; }
+  .sidebar { width:260px; }
+}
+/* ==========================================================================
+   FINAL OVERRIDE — sidebar scroll behaviour
+   Appended last so it wins over Bootstrap's .nav defaults.
+   ========================================================================== */
+
+.sidebar {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  width: var(--sidebar-w);
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  z-index: 400;
+}
+
+/* Brand stays pinned at the top */
+.sidebar > .brand {
+  flex: 0 0 auto !important;
+}
+
+/* The nav list is the ONLY region that scrolls.
+   display:block (not flex) is the bulletproof choice —
+   Bootstrap's .nav.flex-column + flex-wrap was confusing the browser. */
+.sidebar > .nav,
+.sidebar .nav.flex-column {
+  display: block !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  flex-wrap: nowrap !important;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding: .5rem .45rem 1rem !important;
+}
+
+/* Thin custom scrollbar so it looks professional */
+.sidebar > .nav::-webkit-scrollbar { width: 6px; }
+.sidebar > .nav::-webkit-scrollbar-track { background: transparent; }
+.sidebar > .nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,.22); border-radius: 3px; }
+.sidebar > .nav::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.4); }
+.sidebar > .nav { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.22) transparent; }
+
+/* Footer stays pinned at the bottom */
+.sidebar > .sidebar-footer {
+  flex: 0 0 auto !important;
+}
+
+/* Content still leaves room for the fixed sidebar */
+@media (min-width: 901px) {
+  .content {
+    margin-left: var(--sidebar-w);
+    max-width: calc(100vw - var(--sidebar-w));
+  }
+}
+
+/* On mobile the drawer keeps the same flex layout, just off-canvas */
+@media (max-width: 900px) {
+  .sidebar {
+    left: -300px !important;
+    transition: left .25s ease;
+    box-shadow: 6px 0 24px rgba(0,0,0,.18);
+  }
+  .sidebar.open { left: 0 !important; }
+  .content { margin-left: 0 !important; max-width: 100vw !important; }
+}
+/* ---------- Global admin search (in header) ---------- */
+.global-search {
+  position: fixed;
+  top: 1rem; right: 4.5rem;
+  width: 320px; max-width: calc(100vw - 6rem);
+  background: #fff;
+  border: 1px solid var(--aptars-border);
+  border-radius: 22px;
+  display: flex; align-items: center;
+  padding: 0 .3rem 0 .9rem;
+  z-index: 450;
+  box-shadow: 0 2px 8px rgba(15,52,96,.06);
+}
+.global-search input {
+  flex: 1; border: 0; outline: 0; background: transparent;
+  font-size: .88rem; padding: .55rem 0;
+  color: var(--aptars-text);
+}
+.global-search input::placeholder { color: #9aa4b2; }
+.global-search button {
+  border: 0; background: var(--aptars-primary-soft);
+  color: var(--aptars-primary);
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+}
+.global-search button:hover { background: #d6e3f0; }
+
+@media (max-width: 900px) {
+  .global-search { display: none; }
+}
+/* ============================================================
+   Defensive fallback: simulation buttons
+   Ensures they always render visibly even if JS/bootstrap fail
+   ============================================================ */
+.sim-actions {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  margin: .75rem 0 0 0;
+}
+.sim-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .45rem .9rem;
+  font-size: .9rem;
+  font-weight: 500;
+  line-height: 1.2;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  background: #f3f4f6;
+  color: #111827;
+  min-height: 34px;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+.sim-btn:hover { filter: brightness(0.95); }
+.sim-btn-success {
+  background: #198754 !important;
+  border-color: #198754 !important;
+  color: #fff !important;
+}
+.sim-btn-danger {
+  background: #fff !important;
+  border: 1px solid #dc3545 !important;
+  color: #dc3545 !important;
+}
+.sim-btn i { font-size: 1rem; }
+.sim-btn:disabled { opacity: .6; cursor: not-allowed; }
+
+.sim-result-msg {
+  margin-top: .75rem;
+  padding: .55rem .85rem;
+  border-radius: 6px;
+  font-size: .9rem;
+}
+.sim-result-msg.success { background: #d1e7dd; color: #0f5132; }
+.sim-result-msg.danger  { background: #f8d7da; color: #842029; }
+.sim-result-msg.info    { background: #cff4fc; color: #055160; }
